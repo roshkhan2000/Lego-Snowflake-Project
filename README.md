@@ -16,9 +16,10 @@ Steps carried out:
 
 
 
-### :oil_drum: Data Sources
+### :oil_drum: Data Sources, Scripts, and Outputs
 - [LEGO Database](https://www.kaggle.com/datasets/rtatman/lego-database)
 - [Entire script](https://github.com/roshkhan2000/Lego-Snowflake-Project/blob/main/0.%20The%20Whole%20Script)
+- [Custom View CSV Output](https://github.com/roshkhan2000/Lego-Snowflake-Project/blob/main/Custom%20View%20CSV%20Output)
 - Schema Diagram:
 
 <img width="893" height="528" alt="image" src="https://github.com/user-attachments/assets/4829a6f3-5edd-4310-bcf3-e0471ba42824" />
