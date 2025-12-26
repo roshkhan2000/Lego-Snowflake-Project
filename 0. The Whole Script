@@ -172,3 +172,54 @@ ALTER TABLE table_inventory_sets
 ADD CONSTRAINT fk_inventory_sets_to_inventories
 FOREIGN KEY (inventory_id)
 REFERENCES table_inventories (id);
+
+
+CREATE VIEW view_unique_part_percentage AS 
+WITH uniqued AS (
+    SELECT s.set_num
+       , ip.part_num
+       , p.name
+       , SUM(ip.quantity) sum_of_quantity
+    FROM table_sets AS s
+    LEFT JOIN table_inventories AS i
+    ON s.set_num = i.set_num
+    LEFT JOIN table_inventory_parts AS ip
+    ON i.id = ip.inventory_id
+    LEFT JOIN table_parts AS p
+    ON ip.part_num = p.part_num
+    WHERE ip.part_num IS NOT NULL 
+    GROUP BY s.set_num
+       , ip.part_num
+       , p.name
+) 
+
+, unique2 AS (
+SELECT u.name
+    , u.part_num
+    , COUNT(u.name) AS times_appeared_all_together
+    , 'Unique' AS unique_part_or_not
+FROM uniqued AS u
+GROUP BY u.name
+    , u.part_num
+HAVING COUNT(u.name) = 1
+)
+
+SELECT s.set_num 
+    , s.name 
+    , s.year
+    , s.num_parts
+    , SUM(times_appeared_all_together) AS num_unique_parts
+    , ROUND( ( SUM(times_appeared_all_together) / s.num_parts ) * 100, 2) AS unique_part_percentage
+FROM table_sets AS s
+LEFT JOIN table_inventories AS i
+ON s.set_num = i.set_num
+LEFT JOIN table_inventory_parts AS ip
+ON i.id = ip.inventory_id
+LEFT JOIN table_parts AS p
+ON ip.part_num = p.part_num
+LEFT JOIN unique2 AS un
+ON un.part_num = p.part_num
+GROUP BY s.set_num 
+    , s.name 
+    , s.year
+    , s.num_parts;
