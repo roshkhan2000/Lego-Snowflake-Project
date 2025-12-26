@@ -11,17 +11,17 @@ Steps carried out:
 - Added PKs and FKs
 - Created an ER diagram using DBeaver
 - Data Analysis
+  
 <img width="1352" height="358" alt="image" src="https://github.com/user-attachments/assets/4ecbc0f4-93d7-4983-a382-89e5e15e7011" />
 </div>
 
 
 ### :oil_drum: Data Sources
 - [LEGO Database](https://www.kaggle.com/datasets/rtatman/lego-database)
-- [Schema Diagram](link to diagram)
-- [Schema creation script](link to script)
+- [Entire script](https://github.com/roshkhan2000/Lego-Snowflake-Project/blob/main/0.%20The%20Whole%20Script)
+- Schema Diagram:
 
 <img width="893" height="528" alt="image" src="https://github.com/user-attachments/assets/4829a6f3-5edd-4310-bcf3-e0471ba42824" />
-
 
 
 #### Import Script
@@ -85,35 +85,3 @@ s.name as set_name,
 ```
 
 The output of this process is the dataset: [CSV file](link to a csv output of your data)
-
-### :chart_with_upwards_trend: Charting in Tableau
-
-*Brief description of the ask, e.g.*
-
-'exploring unique lego parts', to explore this topic I've created this dashboard to provide the user X, Y Z
-
-
-This is a dashboard of three sheets:
-- Sheet 1: brief description of chart, e.g. line chart showing...
-- Sheet 2: brief description of chart, e.g. line chart showing...
-- Sheet 3: brief description of chart, e.g. line chart showing...
-
-Note any interactions added.
-
-
-### :arrow_forward: Next steps
-
-Add any potential analysis ideas that might improve this work, e.g. 
-- incorporate sales data to answer the question "do sets with more unique parts sell better?"
-
----
-
-Image of your dashboard again:
-<div style="overflow: hidden;margin: 0 10px 0 0">
-<a href="https://public.tableau.com/app/profile/wjsutton/viz/TheToughestTour/TourdeFrance">
-<img src='https://github.com/wjsutton/Tour-De-France/blob/master/Tour%20de%20France.png?raw=true' width="100%">
-</a>
-</div>
-
-Your Name, Date <br>
-Links to socials 
