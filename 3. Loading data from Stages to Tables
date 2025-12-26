@@ -1,0 +1,24 @@
+COPY INTO table_inventories
+FROM @stage_inventories
+FILE_FORMAT = (FORMAT_NAME = file_format_csv);
+COPY INTO table_colors
+FROM @stage_colors
+FILE_FORMAT = (FORMAT_NAME = file_format_csv);
+COPY INTO table_inventory_parts
+FROM @stage_inventory_parts
+FILE_FORMAT = (FORMAT_NAME = file_format_csv);
+COPY INTO table_inventory_sets
+FROM @stage_inventory_sets
+FILE_FORMAT = (FORMAT_NAME = file_format_csv);
+COPY INTO table_parts
+FROM @stage_parts
+FILE_FORMAT = (FORMAT_NAME = file_format_csv);
+COPY INTO table_parts_categories
+FROM @stage_parts_categories
+FILE_FORMAT = (FORMAT_NAME = file_format_csv);
+COPY INTO table_sets
+FROM @stage_sets
+FILE_FORMAT = (FORMAT_NAME = file_format_csv);
+COPY INTO table_themes
+FROM @stage_themes
+FILE_FORMAT = (FORMAT_NAME = file_format_csv);
