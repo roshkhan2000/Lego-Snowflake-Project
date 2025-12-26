@@ -10,10 +10,10 @@ Steps carried out:
 - Loaded data from Stages to Tables
 - Added PKs and FKs
 - Created an ER diagram using DBeaver
-- Data Analysis
+- Custom View for Data Analysis
   
-<img width="1352" height="358" alt="image" src="https://github.com/user-attachments/assets/4ecbc0f4-93d7-4983-a382-89e5e15e7011" />
-</div>
+<img width="1615" height="474" alt="image" src="https://github.com/user-attachments/assets/718953b4-8b62-4eea-8c6f-b7c301f797f6" />
+
 
 
 ### :oil_drum: Data Sources
@@ -22,66 +22,3 @@ Steps carried out:
 - Schema Diagram:
 
 <img width="893" height="528" alt="image" src="https://github.com/user-attachments/assets/4829a6f3-5edd-4310-bcf3-e0471ba42824" />
-
-
-#### Import Script
-
-*highlight a few sections of your script in a code block "```" with some explaination, e.g.*
-
-This script creates tables from the STAGING schema import them into WILLS_SCHEMA with accurate datatypes based on the the data within the STAGING schema.
-```
-CREATE TABLE TIL_PORTFOLIO_PROJECTS.WILLS_SCHEMA.COLORS (
-	ID integer,
-	NAME VARCHAR(28),
-	RGB VARCHAR(6),
-	IS_TRANS VARCHAR(1)
-);
-
-INSERT INTO TIL_PORTFOLIO_PROJECTS.WILLS_SCHEMA.COLORS (
-SELECT *
-FROM TIL_PORTFOLIO_PROJECTS.STAGING.LEGO_COLORS
-);
-```
-
-Primary and foriegn keys have been added where approriate
-```
--- Primary key:
-ALTER TABLE COLORS ADD PRIMARY KEY (ID);
-
--- Foreign key:
-ALTER TABLE SETS ADD FOREIGN KEY (THEME_ID) REFERENCES THEMES(ID);
-```
-
-
-### :white_circle: Data Reshape
-
-The data is read and reshaped using an [SQL script](link to reshape script), 
-
-this script does:
-- X
-- Y
-- Z
-
-```
-CREATE VIEW unique_sets AS
-WITH UNIQUE_PARTS AS (
-  SELECT 
-    p.part_num,
-    p.name as part_name,
-    COUNT(DISTINCT i.set_num) as appears_in_n_sets
-  FROM parts as p
-  INNER JOIN part_categories as pc on p.part_cat_id = pc.id
-  INNER JOIN inventory_parts as ip on p.part_num = ip.part_num
-  INNER JOIN inventories as i on ip.inventory_id = i.id
-  GROUP BY p.part_num,
-  p.name
-  HAVING COUNT(DISTINCT i.set_num) = 1
-)
-
-SELECT 
-s.name as set_name,
-...
-
-```
-
-The output of this process is the dataset: [CSV file](link to a csv output of your data)
