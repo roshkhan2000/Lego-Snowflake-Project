@@ -1,0 +1,65 @@
+-- Primary Keys
+
+ALTER TABLE table_inventories
+ADD CONSTRAINT pk_table_inventories
+PRIMARY KEY (id);
+
+ALTER TABLE table_colors
+ADD CONSTRAINT pk_table_colors
+PRIMARY KEY (id);
+
+ALTER TABLE table_inventory_parts
+ADD CONSTRAINT pk_table_inventory_parts
+PRIMARY KEY (inventory_id);
+
+ALTER TABLE table_inventory_sets
+ADD CONSTRAINT pk_table_inventory_sets
+PRIMARY KEY (inventory_id);
+
+ALTER TABLE table_part_categories
+ADD CONSTRAINT pk_table_part_categories
+PRIMARY KEY (id);
+
+ALTER TABLE table_parts
+ADD CONSTRAINT pk_table_parts
+PRIMARY KEY (part_num);
+
+ALTER TABLE table_sets
+ADD CONSTRAINT pk_table_sets
+PRIMARY KEY (set_num);
+
+ALTER TABLE table_themes
+ADD CONSTRAINT pk_table_themes
+PRIMARY KEY (id);
+
+-- Foreign Keys
+
+ALTER TABLE table_sets
+ADD CONSTRAINT fk_sets_to_themes
+FOREIGN KEY (theme_id)
+REFERENCES table_themes (id);
+
+ALTER TABLE table_inventories
+ADD CONSTRAINT fk_inventories_to_sets
+FOREIGN KEY (set_num)
+REFERENCES table_sets (set_num);
+
+ALTER TABLE table_parts
+ADD CONSTRAINT fk_parts_to_part_categories
+FOREIGN KEY (part_cat_id)
+REFERENCES table_part_categories (id);
+
+ALTER TABLE table_inventory_parts
+ADD CONSTRAINT fk_inventory_parts_to_inventories
+FOREIGN KEY (inventory_id)
+REFERENCES table_inventories (id);
+
+ALTER TABLE table_inventory_parts
+ADD CONSTRAINT fk_inventory_parts_to_parts
+FOREIGN KEY (part_num)
+REFERENCES table_parts (part_num);
+
+ALTER TABLE table_inventory_parts
+ADD CONSTRAINT fk_inventory_parts_to_colors
+FOREIGN KEY (color_id)
+REFERENCES table_colors (id);
