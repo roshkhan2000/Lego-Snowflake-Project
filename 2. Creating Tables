@@ -1,0 +1,44 @@
+CREATE OR REPLACE TABLE table_parts (
+    part_num VARCHAR(1000)
+    , name VARCHAR(1000)
+    , part_cat_id INT
+);
+CREATE OR REPLACE TABLE table_themes (
+    id INT
+    , name VARCHAR(1000)
+    , parent_id INT
+);
+CREATE OR REPLACE TABLE table_sets (
+    set_num VARCHAR(1000)
+    , name VARCHAR(1000)
+    , year BIGINT
+    , theme_id INT
+    , num_parts INT
+);
+CREATE OR REPLACE TABLE table_part_categories (
+    id INT
+    , name VARCHAR(1000)
+);
+CREATE OR REPLACE TABLE table_inventory_sets (
+    inventory_id INT
+    , set_num VARCHAR(1000)
+    , quantity INT
+);
+CREATE OR REPLACE TABLE table_inventory_parts (
+    inventory_id INT
+    , part_num VARCHAR(1000)
+    , color_id INT
+    , quantity INT 
+    , is_spare BOOLEAN
+);
+CREATE OR REPLACE TABLE table_inventories (
+    id INT
+    , version INT
+    , set_num VARCHAR(1000)
+);
+CREATE OR REPLACE TABLE table_colors (
+    id INT
+    , name VARCHAR(1000)
+    , rgb VARCHAR(1000)
+    , is_trans BOOLEAN
+);
