@@ -1,0 +1,174 @@
+CREATE SCHEMA rosh_lego;
+
+
+USE til_playground.rosh_lego;
+
+
+CREATE OR REPLACE FILE FORMAT file_format_csv
+  TYPE = 'CSV'
+  SKIP_HEADER = 1
+  FIELD_OPTIONALLY_ENCLOSED_BY = '"';
+
+
+CREATE OR REPLACE STAGE stage_colors
+  FILE_FORMAT = file_format_csv;
+CREATE OR REPLACE STAGE stage_parts
+  FILE_FORMAT = file_format_csv;
+CREATE OR REPLACE STAGE stage_part_categories
+  FILE_FORMAT = file_format_csv;
+CREATE OR REPLACE STAGE stage_inventories
+  FILE_FORMAT = file_format_csv;
+CREATE OR REPLACE STAGE stage_inventory_parts
+  FILE_FORMAT = file_format_csv;
+CREATE OR REPLACE STAGE stage_inventory_sets
+  FILE_FORMAT = file_format_csv;
+CREATE OR REPLACE STAGE stage_themes
+  FILE_FORMAT = file_format_csv;
+CREATE OR REPLACE STAGE stage_sets
+  FILE_FORMAT = file_format_csv;
+
+
+CREATE OR REPLACE TABLE table_parts (
+    part_num VARCHAR(1000)
+    , name VARCHAR(1000)
+    , part_cat_id INT
+);
+CREATE OR REPLACE TABLE table_themes (
+    id INT
+    , name VARCHAR(1000)
+    , parent_id INT
+);
+CREATE OR REPLACE TABLE table_sets (
+    set_num VARCHAR(1000)
+    , name VARCHAR(1000)
+    , year BIGINT
+    , theme_id INT
+    , num_parts INT
+);
+CREATE OR REPLACE TABLE table_part_categories (
+    id INT
+    , name VARCHAR(1000)
+);
+CREATE OR REPLACE TABLE table_inventory_sets (
+    inventory_id INT
+    , set_num VARCHAR(1000)
+    , quantity INT
+);
+CREATE OR REPLACE TABLE table_inventory_parts (
+    inventory_id INT
+    , part_num VARCHAR(1000)
+    , color_id INT
+    , quantity INT 
+    , is_spare BOOLEAN
+);
+CREATE OR REPLACE TABLE table_inventories (
+    id INT
+    , version INT
+    , set_num VARCHAR(1000)
+);
+CREATE OR REPLACE TABLE table_colors (
+    id INT
+    , name VARCHAR(1000)
+    , rgb VARCHAR(1000)
+    , is_trans BOOLEAN
+);
+
+
+COPY INTO table_inventories
+FROM @stage_inventories
+FILE_FORMAT = (FORMAT_NAME = file_format_csv);
+COPY INTO table_colors
+FROM @stage_colors
+FILE_FORMAT = (FORMAT_NAME = file_format_csv);
+COPY INTO table_inventory_parts
+FROM @stage_inventory_parts
+FILE_FORMAT = (FORMAT_NAME = file_format_csv);
+COPY INTO table_inventory_sets
+FROM @stage_inventory_sets
+FILE_FORMAT = (FORMAT_NAME = file_format_csv);
+COPY INTO table_parts
+FROM @stage_parts
+FILE_FORMAT = (FORMAT_NAME = file_format_csv);
+COPY INTO table_part_categories
+FROM @stage_part_categories
+FILE_FORMAT = (FORMAT_NAME = file_format_csv);
+COPY INTO table_sets
+FROM @stage_sets
+FILE_FORMAT = (FORMAT_NAME = file_format_csv);
+COPY INTO table_themes
+FROM @stage_themes
+FILE_FORMAT = (FORMAT_NAME = file_format_csv);
+
+
+ALTER TABLE table_inventories
+ADD CONSTRAINT pk_table_inventories
+PRIMARY KEY (id);
+
+ALTER TABLE table_colors
+ADD CONSTRAINT pk_table_colors
+PRIMARY KEY (id);
+
+ALTER TABLE table_inventory_parts
+ADD CONSTRAINT pk_table_inventory_parts
+PRIMARY KEY (inventory_id);
+
+ALTER TABLE table_inventory_sets
+ADD CONSTRAINT pk_table_inventory_sets
+PRIMARY KEY (inventory_id);
+
+ALTER TABLE table_part_categories
+ADD CONSTRAINT pk_table_part_categories
+PRIMARY KEY (id);
+
+ALTER TABLE table_parts
+ADD CONSTRAINT pk_table_parts
+PRIMARY KEY (part_num);
+
+ALTER TABLE table_sets
+ADD CONSTRAINT pk_table_sets
+PRIMARY KEY (set_num);
+
+ALTER TABLE table_themes
+ADD CONSTRAINT pk_table_themes
+PRIMARY KEY (id);
+
+
+ALTER TABLE table_sets
+ADD CONSTRAINT fk_sets_to_themes
+FOREIGN KEY (theme_id)
+REFERENCES table_themes (id);
+
+ALTER TABLE table_inventories
+ADD CONSTRAINT fk_inventories_to_sets
+FOREIGN KEY (set_num)
+REFERENCES table_sets (set_num);
+
+ALTER TABLE table_parts
+ADD CONSTRAINT fk_parts_to_part_categories
+FOREIGN KEY (part_cat_id)
+REFERENCES table_part_categories (id);
+
+ALTER TABLE table_inventory_parts
+ADD CONSTRAINT fk_inventory_parts_to_inventories
+FOREIGN KEY (inventory_id)
+REFERENCES table_inventories (id);
+
+ALTER TABLE table_inventory_parts
+ADD CONSTRAINT fk_inventory_parts_to_parts
+FOREIGN KEY (part_num)
+REFERENCES table_parts (part_num);
+
+ALTER TABLE table_inventory_parts
+ADD CONSTRAINT fk_inventory_parts_to_colors
+FOREIGN KEY (color_id)
+REFERENCES table_colors (id);
+
+ALTER TABLE table_inventory_sets
+ADD CONSTRAINT fk_inventory_sets_to_sets
+FOREIGN KEY (set_num)
+REFERENCES table_sets (set_num);
+
+ALTER TABLE table_inventory_sets
+ADD CONSTRAINT fk_inventory_sets_to_inventories
+FOREIGN KEY (inventory_id)
+REFERENCES table_inventories (id);
