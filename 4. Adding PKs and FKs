@@ -63,3 +63,13 @@ ALTER TABLE table_inventory_parts
 ADD CONSTRAINT fk_inventory_parts_to_colors
 FOREIGN KEY (color_id)
 REFERENCES table_colors (id);
+
+ALTER TABLE table_inventory_sets
+ADD CONSTRAINT fk_inventory_sets_to_sets
+FOREIGN KEY (set_num)
+REFERENCES table_sets (set_num);
+
+ALTER TABLE table_inventory_sets
+ADD CONSTRAINT fk_inventory_sets_to_inventories
+FOREIGN KEY (inventory_id)
+REFERENCES table_inventories (id);
