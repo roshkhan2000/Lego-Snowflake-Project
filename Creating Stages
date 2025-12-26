@@ -1,0 +1,28 @@
+CREATE SCHEMA rosh_lego;
+
+
+USE til_playground.rosh_lego;
+
+
+CREATE OR REPLACE FILE FORMAT file_format_csv
+  TYPE = 'CSV'
+  SKIP_HEADER = 1
+  FIELD_OPTIONALLY_ENCLOSED_BY = '"';
+
+
+CREATE OR REPLACE STAGE stage_colors
+  FILE_FORMAT = file_format_csv;
+CREATE OR REPLACE STAGE stage_parts
+  FILE_FORMAT = file_format_csv;
+CREATE OR REPLACE STAGE stage_part_categories
+  FILE_FORMAT = file_format_csv;
+CREATE OR REPLACE STAGE stage_inventories
+  FILE_FORMAT = file_format_csv;
+CREATE OR REPLACE STAGE stage_inventory_parts
+  FILE_FORMAT = file_format_csv;
+CREATE OR REPLACE STAGE stage_inventory_sets
+  FILE_FORMAT = file_format_csv;
+CREATE OR REPLACE STAGE stage_themes
+  FILE_FORMAT = file_format_csv;
+CREATE OR REPLACE STAGE stage_sets
+  FILE_FORMAT = file_format_csv;
